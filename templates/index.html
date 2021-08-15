@@ -8,5 +8,17 @@
 <body>
 
   <h1> Hey there! Welcome to my website </h1> 
+  <h4> this is the data it has currently </h4>
+    
+  <!-- <form action="/" method = "POST">
+    <input  type = "password" id = "password" name = "password" autofocus placeholder="Password">
+    <input type = "submit" value="Enter">
+  </form> -->
+
+  <a href="/add">Insert a new row</a>
+
+  {% for item in rows %}
+        <li>{{ item }}</li>
+  {% endfor %}
 </body>
 </html>
