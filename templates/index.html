@@ -2,23 +2,136 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My First Website ever</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tourney:wght@300&display=swap" rel="stylesheet">  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 
 </head>
-<body>
 
-  <h1> Hey there! Welcome to my website </h1> 
-  <h4> this is the data it has currently </h4>
+<style>
+
+html, body {
+  width: 100%;
+  height:100%;
+  font-family: monospace;
+  font-size:large;
+}
+
+body {
+    background: linear-gradient(    90deg, #000000, #00004d);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
     
-  <!-- <form action="/" method = "POST">
-    <input  type = "password" id = "password" name = "password" autofocus placeholder="Password">
-    <input type = "submit" value="Enter">
-  </form> -->
+}
 
-  <a href="/add">Insert a new row</a>
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
-  {% for item in rows %}
-        <li>{{ item }}</li>
-  {% endfor %}
+  h1
+  {
+    padding-top: 15px;
+    font-size: 80px;
+    font-family: 'Tourney', cursive;
+    font-weight: 600;
+  }
+
+  body
+  {
+    color:#ff9900;
+    /* background-color:#1F2739; */
+  }
+
+  table
+  {
+    /* border-spacing: 1;  */
+    /* border-collapse: collapse;  */
+    /* background:white; */
+    border-radius:10px;
+    overflow:hidden;
+    /* max-width:800px;  */
+    /* width:100%; */
+    margin:0 auto;
+    /* position:relative; */
+  }
+
+  
+
+  
+
+  /* .btn
+  {
+    color:#ff9900;
+  } */
+</style>
+
+
+<body style="text-align: center;">
+
+  <h1> I-did-this-today </h1> 
+  <h6> Created to store and analyse my study patterns </h6>
+
+  <br>
+  <br>
+
+
+  <a class="btn btn-outline-warning" href="/add" role="button">Add a Task</a>
+  <!-- <button type="button"  class="btn btn-outline-primary">Primary</button> -->
+  <!-- ="/add"  -->
+  
+  <br>
+  <br>
+
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <table class="table table-hover table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Category</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Task</th>
+              <th scope="col">Hour(s)</th>
+              <th scope="col">Delete Task</th>
+            </tr>
+          </thead>
+          <tbody>
+      
+            {% for item in rows %}
+            <tr>
+              <th scope="row"> {{ item[2] }} </th>
+              <td>{{ item[4] }}</td>
+              <td>{{ item[6] }}</td>
+              <td>{{ item[3] }}</td>
+              <td>{{ item[5] }}</td>
+              <td>
+                <!-- <a class="btn btn-outline-warning" href="/add" role="button">Add a Task</a> -->
+                <form action="/" method="POST">
+                  <input type="text" hidden name="id" value= {{ item[0] }} >
+                  <input class="btn btn-warning"  type="submit" value="Delete Task">
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>  
+
 </body>
 </html>
