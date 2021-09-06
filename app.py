@@ -2,13 +2,34 @@ from flask import Flask, render_template, request, redirect, session, url_for, s
 from flask_session import Session
 from datetime import timedelta
 import psycopg2, os
+from authlib.integrations.flask_client import OAuth
 
 
 # Authentication Purposes
-from authlib.integrations.flask_client import OAuth
+from auth_decorator import login_required
+# from dotenv import load_dotenv
+# load_dotenv()
+
+
 app = Flask(__name__)
+# Session config
+app.secret_key = os.getenv("APP_SECRET_KEY")
+app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
 oauth = OAuth(app)
+google = oauth.register(
+    name='google',
+    client_id="295193539103-gtsasek5gv4ucrf63cajis8gvv83mc7p.apps.googleusercontent.com",
+    client_secret="1EEkZEQggeni2m-loR44Yalo",
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    access_token_params=None,
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    authorize_params=None,
+    api_base_url='https://www.googleapis.com/oauth2/v1/',
+    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',  # This is only needed if using openId to fetch user info
+    client_kwargs={'scope': 'openid email profile'},
+)
 
 
 
@@ -21,25 +42,14 @@ DATABASE_URL = 'postgres://fmuulpqdtebiau:3d4d6289528790e78e58792a9123a6cc33c80e
 
 # db = psycopg2.connect(DATABASE_URL)
 
-#firebase auth
-config = {
-    "apiKey": "AIzaSyBZv4x1rzkueJM5uNmeqKNEIBxgHahlI5U",
-    "authDomain": "i-did-this-today.firebaseapp.com",
-    "projectId": "i-did-this-today",
-    "storageBucket": "i-did-this-today.appspot.com",
-    "messagingSenderId": "572180625499",
-    "appId": "1:572180625499:web:a93de145bc191b122c677e",
-    "measurementId": "G-PTPWMJ0LVF"
-}
-
-firebase = pyrebase.initialize_app(config)
-auth = firebase.auth()
-
 
 
 
 @app.route("/", methods = ["GET", "POST"])
+@login_required
 def index():
+    print(dict(session))
+    # return email
     db = psycopg2.connect(DATABASE_URL)
     dbcur = db.cursor()
 
@@ -50,26 +60,29 @@ def index():
         db.commit()
         # db.backup()
 
-
-    dbcur.execute("SELECT * from tasks ORDER BY t_id DESC")
+    email = dict(session)['profile']['email']
+    dbcur.execute("""SELECT * from tasks WHERE username = %s ORDER BY t_id DESC""", (email,))
     rows = dbcur.fetchall()
     print(rows, "this is the row content")
     # db.close()
-    return render_template("index.html", rows = rows)
+    user = dict(session)['profile']['name']
+    return render_template("index.html", rows = rows, user = user)
 
 
 
 @app.route("/add", methods = ["GET", "POST"])
+@login_required
 def add():
     if request.method == "GET":
         return render_template("add.html")
     else:
         print("we got till here")
+        username = dict(session)['profile']['email']
         date = str(request.form.get("date"))
         task = str(request.form.get("task"))
         category = str(request.form.get("category"))
         subject = str(request.form.get("subject"))
-        username = "aswin"
+        # username = "aswin"
         hours = int(request.form.get("hours"))
 
         db = psycopg2.connect(DATABASE_URL)
@@ -83,6 +96,36 @@ def add():
 
 
 @app.route("/analyse", methods = ["GET", "POST"])
+@login_required
 def analyse():
     return "WORK IN PROGRESS"
+
+
+@app.route('/login')
+def login():
+    google = oauth.create_client('google')  # create the google oauth client
+    redirect_uri = url_for('authorize', _external=True)
+    return google.authorize_redirect(redirect_uri)
+
+
+@app.route('/authorize')
+def authorize():
+    google = oauth.create_client('google')  # create the google oauth client
+    token = google.authorize_access_token()  # Access token from google (needed to get user info)
+    resp = google.get('userinfo')  # userinfo contains stuff u specificed in the scrope
+    user_info = resp.json()
+    user = oauth.google.userinfo()  # uses openid endpoint to fetch user info
+    # Here you use the profile/user data that you got and query your database find/register the user
+    # and set ur own data in the session not the profile from google
+    session['profile'] = user_info
+    session.permanent = True  # make the session permanant so it keeps existing after broweser gets closed
+    return redirect('/')
+
+
+@app.route('/logout')
+def logout():
+    for key in list(session.keys()):
+        session.pop(key)
+    return redirect('/')
+
         
