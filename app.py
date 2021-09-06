@@ -1,16 +1,42 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, url_for, session
 from flask_session import Session
+from datetime import timedelta
 import psycopg2, os
+
+
+# Authentication Purposes
+from authlib.integrations.flask_client import OAuth
 app = Flask(__name__)
+
+oauth = OAuth(app)
+
+
 
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-DATABASE_URL = os.environ['DATABASE_URL']
-# DATABASE_URL = 'postgres://fmuulpqdtebiau:3d4d6289528790e78e58792a9123a6cc33c80e18e4d04c886c9998d712c99b27@ec2-54-159-35-35.compute-1.amazonaws.com:5432/d2brdfohd7o1jc'
+# DATABASE_URL = os.environ['DATABASE_URL']
+DATABASE_URL = 'postgres://fmuulpqdtebiau:3d4d6289528790e78e58792a9123a6cc33c80e18e4d04c886c9998d712c99b27@ec2-54-159-35-35.compute-1.amazonaws.com:5432/d2brdfohd7o1jc'
 
 # db = psycopg2.connect(DATABASE_URL)
+
+#firebase auth
+config = {
+    "apiKey": "AIzaSyBZv4x1rzkueJM5uNmeqKNEIBxgHahlI5U",
+    "authDomain": "i-did-this-today.firebaseapp.com",
+    "projectId": "i-did-this-today",
+    "storageBucket": "i-did-this-today.appspot.com",
+    "messagingSenderId": "572180625499",
+    "appId": "1:572180625499:web:a93de145bc191b122c677e",
+    "measurementId": "G-PTPWMJ0LVF"
+}
+
+firebase = pyrebase.initialize_app(config)
+auth = firebase.auth()
+
+
+
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
@@ -55,4 +81,8 @@ def add():
         db.close()
         return redirect("/")
 
+
+@app.route("/analyse", methods = ["GET", "POST"])
+def analyse():
+    return "WORK IN PROGRESS"
         

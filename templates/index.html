@@ -1,44 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>i-did-this-today</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Tourney:wght@300&display=swap" rel="stylesheet">  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Tourney:wght@300&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 
 </head>
 
 <style>
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    font-family: monospace;
+    font-size: large;
+  }
 
-html, body {
-  width: 100%;
-  height:100%;
-  font-family: monospace;
-  font-size:large;
-}
-
-body {
-    background: linear-gradient(    90deg, #000000, #00004d);
+  body {
+    background: linear-gradient(90deg, #000000, #00004d);
     background-size: 400% 400%;
     animation: gradient 10s ease infinite;
-    
-}
 
-@keyframes gradient {
+  }
+
+  @keyframes gradient {
     0% {
-        background-position: 0% 50%;
+      background-position: 0% 50%;
     }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
 
-  h1
-  {
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  h1 {
     padding-top: 15px;
     font-size: xx-large;
     /* font-size: 80px; */
@@ -46,29 +50,27 @@ body {
     font-weight: 600;
   }
 
-  body
-  {
+  body {
     text-align: center;
-    color:#ff9900;
+    color: #ff9900;
     /* background-color:#1F2739; */
   }
 
-  table
-  {
+  table {
     /* border-spacing: 1;  */
     /* border-collapse: collapse;  */
     /* background:white; */
-    border-radius:10px;
-    overflow:hidden;
+    border-radius: 10px;
+    overflow: hidden;
     /* max-width:800px;  */
     /* width:100%; */
-    margin:0 auto;
+    margin: 0 auto;
     /* position:relative; */
   }
 
-  
 
-  
+
+
 
   /* .btn
   {
@@ -79,7 +81,7 @@ body {
 
 <body>
 
-  <h1> I-did-this-today </h1> 
+  <h1> I-did-this-today </h1>
   <h6> Created to store and analyse my study patterns </h6>
 
   <br>
@@ -89,7 +91,7 @@ body {
   <a class="btn btn-outline-warning" href="/add" role="button">Add a Task</a>
   <!-- <button type="button"  class="btn btn-outline-primary">Primary</button> -->
   <!-- ="/add"  -->
-  
+
   <br>
   <br>
 
@@ -108,7 +110,7 @@ body {
             </tr>
           </thead>
           <tbody>
-      
+
             {% for item in rows %}
             <tr>
               <th scope="row"> {{ item[2] }} </th>
@@ -119,8 +121,8 @@ body {
               <td>
                 <!-- <a class="btn btn-outline-warning" href="/add" role="button">Add a Task</a> -->
                 <form action="/" method="POST">
-                  <input type="text" hidden name="id" value= {{ item[0] }} >
-                  <input class="btn btn-warning"  type="submit" value="Delete Task">
+                  <input type="text" hidden name="id" value={{ item[0] }}>
+                  <input class="btn btn-warning" type="submit" value="Delete Task">
                 </form>
               </td>
             </tr>
@@ -130,11 +132,39 @@ body {
       </div>
     </div>
   </div>
-  
-  
 
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>  
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+    crossorigin="anonymous"></script>
+    
+  <script>
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.1/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZv4x1rzkueJM5uNmeqKNEIBxgHahlI5U",
+      authDomain: "i-did-this-today.firebaseapp.com",
+      projectId: "i-did-this-today",
+      storageBucket: "i-did-this-today.appspot.com",
+      messagingSenderId: "572180625499",
+      appId: "1:572180625499:web:a93de145bc191b122c677e",
+      measurementId: "G-PTPWMJ0LVF"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+
 
 </body>
+
 </html>
