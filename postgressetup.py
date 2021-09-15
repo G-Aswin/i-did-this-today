@@ -8,18 +8,21 @@ con = psycopg2.connect(URI)
 cur = con.cursor()
 
 
+cur.execute("""DROP TABLE tasks""")
+con.commit()
+
+
 
 cur.execute('''CREATE TABLE tasks (
 	t_id SERIAL PRIMARY KEY,
 	username TEXT NOT NULL,
 	date TEXT NOT NULL,
-	task TEXT NOT NULL,
 	category TEXT NOT NULL,
-	hours INTEGER NOT NULL,
-	subject TEXT NOT NULL
+	task TEXT NOT NULL,
+	hours INTEGER NOT NULL
 )''')
 
-cur.execute("INSERT INTO tasks (username, date, task, category, hours, subject) values ('aswin','24/05/2002', 'birth', 'rest', '1', 'others')")
+# cur.execute("INSERT INTO tasks (username, date, task, category, hours, subject) values ('aswin','24/05/2002', 'birth', 'rest', '1', 'others')")
 
 con.commit()
 con.close()

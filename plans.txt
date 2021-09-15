@@ -1,0 +1,11 @@
+Aim for 15th September
+1. Make the website more general use, instead of gate focused.
+2. Clean up the code
+3. Presentable README page
+
+How to make it more general use oriented?
+-> Let it still be a study/ productivity tracking app.
+-> Store activities in two categories : productive and procrastinative.
+-> Also store additional description and how many hours that activity happened.
+
+-> Create procrastination and productive charts for the past week.

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, url_for, session
 from flask_session import Session
-from datetime import timedelta
+from datetime import timedelta, date
 import psycopg2, os
 from authlib.integrations.flask_client import OAuth
 
@@ -63,8 +63,37 @@ def index():
     email = dict(session)['profile']['email']
     dbcur.execute("""SELECT * from tasks WHERE username = %s ORDER BY t_id DESC""", (email,))
     rows = dbcur.fetchall()
-    print(rows, "this is the row content")
+    # print(rows, "this is the row content")
     # db.close()
+
+    # productivedata = [0]*7
+    # procrastinativedata = [0]*7
+
+    # daynum = int(date.today().strftime("%w"))
+    # today = date.today()
+    # print(type(today))
+
+    # while True:
+    #     dbcur.execute("""SELECT sum(hours) from tasks WHERE username = %s AND date = %s AND category = 'productive'""", (email,str(today),))
+    #     val = dbcur.fetchall()
+    #     productivedata[daynum] = 
+    #     dbcur.execute("""SELECT sum(hours) from tasks WHERE username = %s AND date = %s AND category = 'procrastinative'""", (email,str(today),))
+    #     productivedata[daynum] = dbcur.fetchall()
+
+    #     today = date.today() - timedelta(days=1)
+    #     daynum -= 1
+
+    #     if daynum == -1:
+    #         break
+
+
+
+
+
+    # print(productivedata, procrastinativedata)
+
+
+
     user = dict(session)['profile']['name']
     return render_template("index.html", rows = rows, user = user)
 
@@ -81,15 +110,15 @@ def add():
         date = str(request.form.get("date"))
         task = str(request.form.get("task"))
         category = str(request.form.get("category"))
-        subject = str(request.form.get("subject"))
+        # subject = str(request.form.get("subject"))
         # username = "aswin"
         hours = int(request.form.get("hours"))
 
         db = psycopg2.connect(DATABASE_URL)
         dbcur = db.cursor()
 
-        print(date, task, category, subject, username)
-        dbcur.execute("INSERT into tasks (username, date, task, category, subject, hours) values (%s, %s, %s, %s, %s, %s)", (username, date, task, category, subject, hours))
+        # print(date, task, category, subject, username)
+        dbcur.execute("INSERT into tasks (username, date, task, category, hours) values (%s, %s, %s, %s, %s)", (username, date, task, category, hours))
         db.commit()
         db.close()
         return redirect("/")

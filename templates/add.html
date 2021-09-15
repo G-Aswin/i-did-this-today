@@ -160,7 +160,7 @@
             <div class="form-holder">
                 <div class="form-content">
                     <div class="form-items">
-                        <h3>Add a task</h3>
+                        <h3>Add an activity</h3>
                         <p>Fill in the data below.</p>
                         <form action="/add" method = "POST">
 
@@ -172,13 +172,13 @@
                           <br>
 
                             <div class="col-md-12">
-                               <textarea class="form-control" id="task" name="task" rows="3" placeholder = "Task"></textarea>
+                               <textarea class="form-control" id="task" name="task" rows="3" placeholder = "Describe the Activity"></textarea>
 <!--                                  <div class="valid-feedback">Email field is valid!</div> -->
 <!--                                  <div class="invalid-feedback">Email field cannot be blank!</div> -->
                             </div>
                           
                           <div class="col-md-12">
-                               <input class="form-control" id = "hours" type="number" name="hours" placeholder = "Hours">
+                               <input class="form-control" id = "hours" type="number" min="0" name="hours" placeholder = "Hours">
 <!--                                <div class="valid-feedback">Username field is valid!</div> -->
 <!--                                <div class="invalid-feedback">Username field cannot be blank!</div> -->
                             </div>
@@ -186,17 +186,17 @@
                            <div class="col-md-12 mt-3">
                             <label class="mb-3 mr-1" for="category">Category :   </label>
 
-                            <input type="radio" class="btn-check" name="category" id="category_gate" autocomplete="off" value="gate" required>
-                            <label class="btn btn-sm btn-outline-secondary" for="category_gate">GATE</label>
+                            <input type="radio" class="btn-check" name="category" id="productive" autocomplete="off" value="productive" required>
+                            <label class="btn btn-sm btn-outline-secondary" for="productive">Productive</label>
 
-                            <input type="radio" class="btn-check" name="category" id="category_rest" autocomplete="off" value="rest" required>
-                            <label class="btn btn-sm btn-outline-secondary" for="category_rest">Rest</label>
+                            <input type="radio" class="btn-check" name="category" id="procrastinative" autocomplete="off" value="procrastinative" required>
+                            <label class="btn btn-sm btn-outline-secondary" for="procrastinative">Procrastinative</label>
 
    
 <!--                                <div class="valid-feedback mv-up">You selected a gender!</div> -->
 <!--                                 <div class="invalid-feedback mv-up">Please select a gender!</div> -->
                             </div>
-                           <div class="col-md-12" >
+                           <!-- <div class="col-md-12" >
                                 <select class="form-select mt-3" required name="subject">
                                       <option selected disabled value="">Subject</option>
                                       <option value="others">Others (Non - Gate)</option>
@@ -212,7 +212,7 @@
                                </select>
                                 <div class="valid-feedback">You selected a position!</div>
                                 <div class="invalid-feedback">Please select a position!</div>
-                           </div>
+                           </div> -->
 
 
 <!--                            <div class="col-md-12">
@@ -231,7 +231,7 @@
                   
 
                             <div class="form-button mt-3">
-                                <button id="submit" type="submit" class="btn btn-primary">Add Task!</button>
+                                <button id="submit" type="submit" class="btn btn-primary">Add Activity!</button>
                             </div>
                         </form>
                     </div>
