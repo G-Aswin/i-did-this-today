@@ -3,7 +3,7 @@ A web application built using Flask in the backend and a simple frontend which a
 Ultimately a tool to put a check on procrastination 👀
 
 ## Motivation behind making <strong>i-did-this-today</strong>
-- At the time, I was just starting to prepare for GATE 2023, I felt a need for an application where I could post what am I spending my time on a daily basis, so I could analyse it later.
+- At the time, I was just starting to prepare for GATE 2022, I felt a need for an application where I could post what am I spending my time on a daily basis, so I could analyse it later.
 
 - I realized the scope for making something of my own to fit my needs perfectly, so I started working on this project.
 
